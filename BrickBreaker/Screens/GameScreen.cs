@@ -1,15 +1,15 @@
-﻿/*  Created by: 
+﻿/*  Created by:
  *  Project: Brick Breaker
- *  Date: 
+ *  Date:
  */
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
-using BrickBreaker.Screens;
 using System.Media;
 using System.Xml;
+using System.Diagnostics;
 using System.Windows.Forms.Automation;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
 
@@ -32,7 +32,7 @@ namespace BrickBreaker
 
         public static int width;
         public static int height;
-
+        public int colVal = 255;
         //player1 button control keys - DO NOT CHANGE
         Boolean leftArrowDown, rightArrowDown, spaceDown;
 
@@ -55,6 +55,10 @@ namespace BrickBreaker
         public static bool breakthroughBool;
         public static bool gravityBool;
         public static bool extendBool;
+        public static bool startBool;
+        public static bool rcCarBool;
+
+        public static string level;
 
         // list of all blocks for current level
         List<Block> blocks = new List<Block>();
@@ -75,21 +79,29 @@ namespace BrickBreaker
         SolidBrush extendPaddle = new SolidBrush(Color.Yellow);
         SolidBrush health = new SolidBrush(Color.Red);
 
+        //powerup images
+        Image gravityimage = Properties.Resources.Gravity;
+        Image healthimage = Properties.Resources.Health;
+        Image multiballimage = Properties.Resources.multiball;
+        Image extendedpadleimage = Properties.Resources.extended_paddle;
+
+
         //declare random
         public static Random r = new Random();
         #endregion
 
         Rectangle rc_car = new Rectangle();
 
-        Pen redbrush = new Pen(Color.Red);
+        Pen outlineBrush = new Pen(Color.FromArgb(100, 255, 0, 0));
 
-        Stopwatch ballwatch = new Stopwatch();
+        Stopwatch ballWatch = new Stopwatch();
 
         public GameScreen()
         {
             InitializeComponent();
             OnStart();
         }
+
         public void OnStart()
         {
             height = this.Height;
@@ -131,7 +143,7 @@ namespace BrickBreaker
             balls.Add(ball);
 
 
-            XmlReader reader = XmlReader.Create("Resources/firstLevel.xml");
+            XmlReader reader = XmlReader.Create($"Resources/{level}.xml");
 
             while (reader.Read())
             {
@@ -174,6 +186,7 @@ namespace BrickBreaker
             // start the game engine loop
             gameTimer.Enabled = true;
         }
+
         private void GameScreen_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
             //player 1 button presses
@@ -191,18 +204,11 @@ namespace BrickBreaker
                 case Keys.Escape:
                     Application.Exit();
                     break;
-                case Keys.P:
-                    Form form = this.FindForm();
-                    Pause_screen pausescreen = new Pause_screen();
-
-                    pausescreen.Location = new Point((form.Width - pausescreen.Width) / 2, (form.Height - pausescreen.Height) / 2);
-
-                    form.Controls.Add(pausescreen);
-                    pausescreen.Focus();
-                    form.Controls.Remove(this);
+                default:
                     break;
             }
         }
+
         private void GameScreen_KeyUp(object sender, KeyEventArgs e)
         {
             //player 1 button releases
@@ -221,6 +227,7 @@ namespace BrickBreaker
                     break;
             }
         }
+
         private void gameTimer_Tick(object sender, EventArgs e)
         {
             //test code to slow game down (will be removed for final game)
@@ -233,7 +240,7 @@ namespace BrickBreaker
                 gameTimer.Interval = 1;
             }
 
-            #region Move the paddle 
+            // Move the paddle
             if (leftArrowDown && paddle.x > 0)
             {
                 paddle.Move("left");
@@ -242,21 +249,20 @@ namespace BrickBreaker
             {
                 paddle.Move("right");
             }
-            #endregion
 
-            #region Move ball
+            // Move ball
             foreach (Ball b in balls)
             {
                 b.Move();
             }
-            #endregion
 
-            #region collision
+
             // Check for collision with top and side walls
             foreach (Ball b in balls)
             {
                 b.WallCollision(this);
             }
+
 
             // Check for ball hitting bottom of screen
             for (int i = 0; i < balls.Count; i++)
@@ -267,12 +273,12 @@ namespace BrickBreaker
 
                     if (balls.Count == 0)
                     {
+                        //delete active powerups
                         pressStartLabel.Visible = true;
                         gravityBool = false;
                         breakthroughBool = false;
                         extendBool = false;
                         gravityTimer.Reset();
-                        gravityTimer.Stop();
                         breakTimer.Reset();
                         extendTimer.Reset();
 
@@ -297,14 +303,24 @@ namespace BrickBreaker
             // Check for collision of ball with paddle, (incl. paddle movement)
             foreach (Ball b in balls)
             {
-                b.PaddleCollision(paddle, extraSpeed);
+                for (int i = 0; i < balls.Count; i++)
+                {
+                    if (balls[i].xSpeed == 0 && balls[i].ySpeed == 0)
+                    {
+                        //do nothing
+                    }
+                    else
+                    {
+                        b.PaddleCollision(paddle, extraSpeed);
+                    }
+                }
             }
 
             // Check if ball has collided with any blocks
             foreach (Block b in blocks)
             {
                 bool keepLooking = true;
-                
+
                 for (int i = 0; i < balls.Count; i++)
                 {
                     if (balls[i].BlockCollision(b))
@@ -318,7 +334,7 @@ namespace BrickBreaker
                         b.hp--;
 
                         // if block hp = 0
-                        if(b.hp == 0)
+                        if (b.hp == 0)
                         {
                             //random chance to spawn a powerup
                             if (r.Next(1, 3) == 1)
@@ -328,7 +344,7 @@ namespace BrickBreaker
                             }
                             keepLooking = false;
                             blocks.Remove(b);
-                            
+
                         }
 
                         if (blocks.Count == 0)
@@ -339,7 +355,7 @@ namespace BrickBreaker
 
                         break;
                     }
-                   
+
                 }
                 // break out of loop
                 if (keepLooking == false)
@@ -348,14 +364,15 @@ namespace BrickBreaker
                 }
 
             }
-            #endregion
 
-            #region powers
-
+            // Powers
             foreach (Powers p in powerList)
             {
                 //move each powerBall
-                p.Move();
+                if (ball.xSpeed != 0 && ball.ySpeed != 0)
+                {
+                    p.Move();
+                }
 
                 //check for paddle collision to see if the player deserves powerup
                 if (p.Collision(paddle))
@@ -377,7 +394,7 @@ namespace BrickBreaker
                             }
                             break;
                         case "Gravity":
-                            //arc balls back upwards 
+                            //arc balls back upwards
                             if (gravityTimer.IsRunning == true)
                             {
                                 gravityTimer.Restart();
@@ -397,9 +414,18 @@ namespace BrickBreaker
                             }
                             break;
                         case "MultiBall":
-                            //creates a new ball 
-                            Ball newBall = new Ball(ball.x, ball.y, ball.xSpeed * -1, ball.ySpeed, ball.size);
-                            balls.Add(newBall);
+                            //creates a new ball foreach ball currently on screen
+                            int ballCount = balls.Count;
+                            if (ballCount >= 2)
+                            {
+                                ballCount = 1;
+                            }
+                            for (int i = 0; i < ballCount; i++)
+                            {
+                                Ball newBall = new Ball(balls[i].x, balls[i].y, balls[i].xSpeed * -1, balls[i].ySpeed, ball.size);
+                                balls.Add(newBall);
+                            }
+
                             break;
                         case "ExtendPaddle":
                             //extends paddle
@@ -412,8 +438,8 @@ namespace BrickBreaker
                                 extendTimer.Start();
                                 extendBool = true;
 
-                                paddle.width += 80;
-                                paddle.x -= 40;
+                                paddle.width += 40;
+                                paddle.x -= 20;
                                 rc_car.X = paddle.x;
                                 rc_car.Width = paddle.width;
                             }
@@ -429,6 +455,13 @@ namespace BrickBreaker
                     powerList.Remove(p);
                     break;
                 }
+                // remove powerBall if it is in pause-mode and reachable by the paddle
+                else if (ball.xSpeed == 0 && ball.ySpeed == 0 && p.y > paddle.y - 30)
+                {
+                    powerList.Remove(p);
+                    break;
+                }
+
             }
 
             //check if duration has run out for each powerup
@@ -455,35 +488,76 @@ namespace BrickBreaker
             //gravity powerup
             if (7 < Convert.ToDouble(gravityTimer.ElapsedMilliseconds / 1000))
             {
+                gravityTimer.Reset();
+                gravityBool = false;
+                ballBrush.Color = Color.White;
+            }
+
+            //ball animations
+            ballWatch.Start();
+            if (ballWatch.ElapsedMilliseconds >= 200)
+            {
+                ballig = Properties.Resources.toy_story_ball_down1;
+            }
+            if (ballWatch.ElapsedMilliseconds >= 400)
+            {
+                ballig = Properties.Resources.toy_story_ball_right1;
+            }
+            if (ballWatch.ElapsedMilliseconds >= 600)
+            {
+                ballig = Properties.Resources.toy_story_ball_up1;
+            }
+            if (ballWatch.ElapsedMilliseconds >= 1000)
+            {
+                ballig = Properties.Resources.toy_story_ball_left1;
+                ballWatch.Restart();
+            }
 
             // keep ball above paddle before release
             if (spaceDown == true && ball.xSpeed == 0)
             {
                 pressStartLabel.Visible = false;
-               //determine which way the ball travels
-               if (leftArrowDown == true)
+                //determine which way the ball travels
+                if (leftArrowDown == true)
                 {
+                    //release ball with more left force
                     ball.xSpeed = -8;
                     ball.ySpeed = -8;
                 }
                 else if (rightArrowDown == true)
                 {
+                    //release ball with more right force
                     ball.xSpeed = 8;
                     ball.ySpeed = -8;
                 }
                 else
                 {
-                    ball.xSpeed = r.Next (3,6);
-                    ball.ySpeed = r.Next(-8,8);
+                    //release ball with more upward force
+                    ball.xSpeed = r.Next(3, 6);
+                    if (r.Next(1, 3) == 1)
+                    {
+                        ball.xSpeed *= -1;
+                    }
+                    ball.ySpeed = r.Next(-8, -5);
                 }
             }
+            // center ball to paddle at pause
             if (ball.xSpeed == 0 && ball.ySpeed == 0)
             {
                 ball.x = ((paddle.x - (ball.size / 2)) + (paddle.width / 2));
-                ball.y = (this.Height - paddle.height) -135;
+                ball.y = (this.Height - paddle.height) - 115;
             }
 
-                if (counter % counterInterval == 0)
+            //speeding up the ball every 5 seconds
+            counter++;
+            if (counter % 5000 == 0)
+            {
+                extraSpeed++;
+            }
+
+            if (counter % counterInterval == 0)
+            {
+                foreach (Block b in blocks)
                 {
                     for (int i = 0; i < balls.Count; i++)
                     {
@@ -493,8 +567,10 @@ namespace BrickBreaker
                         }
                         else
                         {
+                            //slowly make blocks fall
+
                             b.y += 10;
-                          
+
                             if (b.y >= paddle.y)
                             {
                                 gameTimer.Enabled = false;
@@ -504,12 +580,12 @@ namespace BrickBreaker
                         }
                     }
                 }
-                #endregion
-
-                //redraw the screen
-                Refresh();
             }
+
+            //redraws the screen
+            Refresh();
         }
+
         public void OnEnd()
         {
             breakTimer.Reset();
@@ -531,10 +607,9 @@ namespace BrickBreaker
 
         public void GameScreen_Paint(object sender, PaintEventArgs e)
         {
-            // Draws paddle
-
-            //paddleBrush.Color = paddle.colour;
-            e.Graphics.DrawRectangle(redbrush, paddle.x, paddle.y, paddle.width, paddle.height);
+            // Draw paddle (rcCar)
+            //draw paddle outline
+            e.Graphics.DrawRectangle(outlineBrush, paddle.x, paddle.y, paddle.width, paddle.height);
             if (leftArrowDown == true)
             {
                 if (extendBool == true)
@@ -546,7 +621,7 @@ namespace BrickBreaker
                     paddle.width = 105;
                 }
                 paddle.height = 80;
-                e.Graphics.DrawImage(rcCarRight, paddle.x, paddle.y);
+                e.Graphics.DrawImage(rcCarRight, paddle.x, paddle.y, paddle.width, paddle.height);
             }
             else if (rightArrowDown == true)
             {
@@ -559,13 +634,13 @@ namespace BrickBreaker
                     paddle.width = 105;
                 }
                 paddle.height = 80;
-                e.Graphics.DrawImage(rcCarLeft, paddle.x, paddle.y);
+                e.Graphics.DrawImage(rcCarLeft, paddle.x, paddle.y, paddle.width, paddle.height);
             }
             else
             {
                 paddle.height = 105;
                 paddle.width = 80;
-                e.Graphics.DrawImage(rcCarTop, paddle.x, paddle.y);
+                e.Graphics.DrawImage(rcCarTop, paddle.x, paddle.y, paddle.width, paddle.height);
             }
 
             // Draws blocks
@@ -611,16 +686,16 @@ namespace BrickBreaker
                         e.Graphics.FillRectangle(breakThrough, p.x, p.y, Powers.powerupSize, Powers.powerupSize);
                         break;
                     case "Gravity":
-                        e.Graphics.FillRectangle(gravity, p.x, p.y, Powers.powerupSize, Powers.powerupSize);
+                        e.Graphics.DrawImage(gravityimage, p.x, p.y, Powers.powerupSize, Powers.powerupSize);
                         break;
                     case "Health":
-                        e.Graphics.FillRectangle(health, p.x, p.y, Powers.powerupSize, Powers.powerupSize);
+                        e.Graphics.DrawImage(healthimage, p.x, p.y, Powers.powerupSize, Powers.powerupSize);
                         break;
                     case "MultiBall":
-                        e.Graphics.FillRectangle(multiBall, p.x, p.y, Powers.powerupSize, Powers.powerupSize);
+                        e.Graphics.DrawImage(multiballimage, p.x, p.y, Powers.powerupSize, Powers.powerupSize);
                         break;
                     case "ExtendPaddle":
-                        e.Graphics.FillRectangle(extendPaddle, p.x, p.y, Powers.powerupSize, Powers.powerupSize);
+                        e.Graphics.DrawImage(extendedpadleimage, p.x, p.y, Powers.powerupSize, Powers.powerupSize);
                         break;
                 }
             }

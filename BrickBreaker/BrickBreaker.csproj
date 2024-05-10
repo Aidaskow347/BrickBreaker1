@@ -72,6 +72,12 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="LevelScreen.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="LevelScreen.Designer.cs">
+      <DependentUpon>LevelScreen.cs</DependentUpon>
+    </Compile>
     <Compile Include="InstructionsScreen.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -113,6 +119,9 @@
     </Compile>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LevelScreen.resx">
+      <DependentUpon>LevelScreen.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="InstructionsScreen.resx">
       <DependentUpon>InstructionsScreen.cs</DependentUpon>
@@ -251,6 +260,48 @@
     <None Include="Resources\YOU-DIED-4-25-2024-removebg-preview.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\andysRoom.jpeg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\clawMachine.jpeg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pizzaplanet-disney-ok-1523876897.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\venting.jfif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\venting.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\zergFight.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\sidsRoom.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\lotso.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\trash.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\truck.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\minecraft---place-item-sound-made-with-Voicemod.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\4359__noisecollector__pongblipf4.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Randy Newman - You%27ve Got A Friend In Me %28minus 2%29.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\image.png" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="Resources\thirdLevel.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -269,6 +320,21 @@
     <None Include="Resources\sixthLevel.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Health.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\multiball.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\breakthrough - Copy.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\extended paddle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Gravity.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -175,6 +175,45 @@
   <data name="YOU_WIN_4_25_2024_removebg_preview" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\YOU-WIN-4-25-2024-removebg-preview.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="andysRoom" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\andysRoom.jpeg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="clawMachine" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\clawMachine.jpeg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="pizzaplanet_disney_ok_1523876897" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pizzaplanet-disney-ok-1523876897.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="venting" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\venting.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="zergFight" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\zergFight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="brickHit" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\minecraft---place-item-sound-made-with-Voicemod.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="lotso" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\lotso.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="menuSong" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Randy Newman - You've Got A Friend In Me (minus 2).wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="paddleHit" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\4359__noisecollector__pongblipf4.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="sidsRoom" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\sidsRoom.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="trash" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\trash.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="truck" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\truck.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="blur" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\image.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="thirdLevel" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\thirdLevel.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
@@ -186,5 +225,20 @@
   </data>
   <data name="sixthLevel" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\sixthLevel.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="breakthrough___Copy" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\breakthrough - Copy.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="extended_paddle" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\extended paddle.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Gravity" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Gravity.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Health" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Health.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="multiball" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\multiball.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

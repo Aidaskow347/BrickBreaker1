@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Media;
 
 namespace BrickBreaker
 {
@@ -16,7 +17,9 @@ namespace BrickBreaker
         public Form1()
         {
             InitializeComponent();
-        }
+    }
+        public static SoundPlayer backSound = new SoundPlayer(Properties.Resources.menuSong);
+
 
         private void Form1_Load(object sender, EventArgs e)
         {
